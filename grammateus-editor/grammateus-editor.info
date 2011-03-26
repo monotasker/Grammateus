@@ -1,0 +1,5 @@
+; $Id$
+name = Grammateus Editor
+description = Provides a block that allows creation and editing of an XML document structured according to the Grammateus document type definition. 
+core = 6.x
+package = Grammateus

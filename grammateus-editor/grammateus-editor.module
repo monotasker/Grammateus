@@ -1,0 +1,152 @@
+<?php
+// $Id$
+
+/*
+ * @file
+ * Drupal Module: grammateus-editor
+ * Adds custom code specific to this Drupal 6 site.
+ */
+
+// keep the module name consistent throughout
+global $moduleName;
+$moduleName = "grammateus-editor";
+
+//call help hook to create a help entry for the module
+function grammateus-editor_help($path, $arg) {
+  $output = '';  //declare your output variable
+  switch ($path) {
+    case "admin/help#".$moduleName:
+      $output = '<p>'.  t("Provides an interface for editing xml documents to be viewed and published via the Grammateus Reader.") .'</p>';
+      break;
+  }
+  return $output;
+} // function grammateus-editor_help
+
+//call permissions hook to set permission categories for the module on the permissions page
+function grammateus-editor_perm() {
+  return array('access'.$moduleName.'content', 'administer'.$moduleName);
+} // function grammateus-editor_perm()
+
+// call menu hook to create an administration menu to create content for module
+function grammateus-editor_menu() {
+global $moduleName;
+$items = array();
+$items['admin/settings/'.$moduleName] = array(
+'title' => ucfirst($moduleName),
+'description' => 'Set '.$moduleName.' code',
+'page callback' => 'drupal_get_form',
+'page arguments' => array($moduleName.'_admin'),
+'access arguments' => array('access administration pages'),
+'type' => MENU_NORMAL_ITEM,
+);
+return $items;
+}
+
+// call admin hook to let you administer the content of this block
+function grammateus-editor_admin() {
+global $moduleName;
+$form = array();
+$form[$moduleName.'_show_title'] = array(
+'#type' => 'checkbox',
+'#title' => t('Show title'),
+'#default_value' => variable_get($moduleName.'_show_title', '1'),
+'#required' => TRUE,
+);
+$form[$moduleName.'_number'] = array(
+'#type' => 'textfield',
+'#title' => t('How many blocks'),
+'#default_value' => variable_get($moduleName.'_number', '1'),
+'#maxlength' => 3,
+'#required' => TRUE,
+);
+$n = (int)variable_get($moduleName.'_number',1);
+for( $i=1;$i<$n+1;$i++ ) {
+($i<2) ? $setreq = TRUE : $setreq = FALSE;
+$form[$moduleName.'_'.$i] = array(
+
+'#type' => 'textarea',
+'#title' => t(ucfirst($moduleName).' Block '.($i)),
+'#default_value' => variable_get($moduleName.'_'.$i, ''),
+'#maxlength' => 800,
+'#required' => $setreq,
+); 
+}
+return system_settings_form($form);
+}
+
+// call block hook and show in Drupal block the you assign 
+function grammateus-editor_block($op = 'list', $delta = 0) {
+
+global $moduleName;
+
+//include custom css stylesheet for module
+drupal_add_css(drupal_get_path('module', $moduleName) .'/'.$moduleName.'.css');
+
+//include custom javascript files for module, located in module directory
+drupal_add_js(drupal_get_path('module', $moduleName) .'/'.$moduleName.'.js');
+drupal_add_js(drupal_get_path('module', $moduleName) .'/js/jquery.xmldom-1.0.min.js');
+drupal_add_js(drupal_get_path('module', $moduleName) .'/js/jquery.easing.1.3.js');
+drupal_add_js(drupal_get_path('module', $moduleName) .'/js/beauty-tips/jquery.bt.min.js');
+drupal_add_js(drupal_get_path('module', $moduleName) .'/js/autoresize.jquery.min.js');
+
+if ($op == "list") {
+    // Generate listing of blocks from this module, for the admin/block page
+    $block = array();
+    $block[0]["info"] = t('Grammateus Editor');
+    return $block;
+  } 
+
+// block content begins  
+else if ($op == 'view') {
+
+$structure = t('<form name="myForm" id=myForm action="saveverse.php" method="post">
+  <span class="hidden">Book:</span>
+  <input type="text" name="book" id="book" class="hidden" />
+  <span class="formLabel">Chapter</span>
+  <input type="text" name="div1" id="div1" />
+  <span class="formLabel">Verse</span>
+  <input type="text" name="div2" id="div2" />  
+  <select id="versionSelector"></select>
+  <a id="getxml" class="bigButton greyGradient greenLetter" href="#">Get Text<a/>
+  <a id="savexml" class="bigButton greyGradient redLetter" href="#">Save Changes</a>
+  <a id="getbackup" class="bigButton greyGradient" href="#">View Backup</a>
+  <ul id="backupList" class="hidden"></ul>
+  </form>
+
+  <div id="editorTabs">
+  <span class="editorTab">Tables View</span>
+  <span class="editorTab">Raw XML View</span>
+  <span class="editorTab">Text Types</span>  
+  </div>
+
+  <div id="unitstables">
+  <div class="optionRemoveMask"><span>Click to remove this variant reading from the unit</span></div>
+  </div>
+  
+  <div id="rawxml" class="hidden">
+    <span class="warningText">Note: Changes made here WILL be preserved when you switch back to tables view.</span>
+    <textarea id="xmltextarea"></textarea>
+  </div>
+  <div id="textTypes" class="hidden">
+    <table>
+      <tr>
+        <td>Abbreviation</td>
+        <td>Full Name</td>
+        <td>Notes</td>        
+        <td>Language</td>
+        <td>Bibliography</td>
+        <td>Running?</td>
+        <td></td>        
+      </tr>
+    </table>
+    <a href="#" class="msRowAdder">Add another manuscript or other text type</a>
+  </div>');
+
+$block['content'] = $structure;
+
+return $block;
+
+}//else if $op == view
+
+}// function grammateus-editor_block
+

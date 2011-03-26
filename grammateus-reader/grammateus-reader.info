@@ -1,0 +1,6 @@
+; $Id$
+name = Grammateus Reader Module
+description = Provides a block that displays an XML document interactively. 
+core = 6.x
+package = Grammateus
+dependencies[] = jquery_ui

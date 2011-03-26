@@ -1,0 +1,104 @@
+<?php
+// $Id$
+
+/*
+ * @file
+ * Drupal Module: textEditor
+ * Adds custom code specific to this Drupal 6 site.
+ */
+
+// keep the module name consistent throughout
+global $moduleName;
+$moduleName = "textEditor";
+
+//call help hook to create a help entry for the module
+function textEditor_help($path, $arg) {
+  $output = '';  //declare your output variable
+  switch ($path) {
+    case "admin/help#textEditor":
+      $output = '<p>'.  t("Provides an interface for editing xml documents structured according to the Online Critical Pseudepigrapha document type.") .'</p>';
+      break;
+  }
+  return $output;
+} // function textEditor_help
+
+//call permissions hook to set permission categories for the module on the permissions page
+function textEditor_perm() {
+  return array('access textEditor content', 'administer textEditor');
+} // function textEditor_perm()
+
+// call menu hook to create an administration menu to create content for module
+function textEditor_menu() {
+global $moduleName;
+$items = array();
+$items['admin/settings/'.$moduleName] = array(
+'title' => ucfirst($moduleName),
+'description' => 'Set '.$moduleName.' code',
+'page callback' => 'drupal_get_form',
+'page arguments' => array($moduleName.'_admin'),
+'access arguments' => array('access administration pages'),
+'type' => MENU_NORMAL_ITEM,
+);
+return $items;
+}
+
+// call admin hook to let you administer the content of this block
+function textEditor_admin() {
+global $moduleName;
+$form = array();
+$form[$moduleName.'_show_title'] = array(
+'#type' => 'checkbox',
+'#title' => t('Show title'),
+'#default_value' => variable_get($moduleName.'_show_title', '1'),
+'#required' => TRUE,
+);
+$form[$moduleName.'_number'] = array(
+'#type' => 'textfield',
+'#title' => t('How many blocks'),
+'#default_value' => variable_get($moduleName.'_number', '1'),
+'#maxlength' => 3,
+'#required' => TRUE,
+);
+$n = (int)variable_get($moduleName.'_number',1);
+for( $i=1;$i<$n+1;$i++ ) {
+($i<2) ? $setreq = TRUE : $setreq = FALSE;
+$form[$moduleName.'_'.$i] = array(
+
+'#type' => 'textarea',
+'#title' => t(ucfirst($moduleName).' Block '.($i)),
+'#default_value' => variable_get($moduleName.'_'.$i, ''),
+'#maxlength' => 800,
+'#required' => $setreq,
+); 
+}
+return system_settings_form($form);
+}
+
+// call block hook and show in Drupal block the you assign 
+function textEditor_block($op = 'list', $delta = 0) {
+
+global $moduleName;
+
+//include custom css stylesheet for module
+drupal_add_css(drupal_get_path('module', 'textEditor') .'/textEditor.css');
+
+//include custom javascript files for module, located in module directory
+drupal_add_js(drupal_get_path('module', 'bookDisplay') .'/js/common.js'); 
+drupal_add_js(drupal_get_path('module', 'bookDisplay') .'/js/textEditor.js');
+
+if ($op == "list") {
+    // Generate listing of blocks from this module, for the admin/block page
+    $block = array();
+    $block[0]["info"] = t('OCP Text Editor');
+    return $block;
+  } 
+
+// block content begins  
+else if ($op == 'view') {
+
+return;
+
+}//else if $op == view
+
+}// function bookDisplay_block
+
