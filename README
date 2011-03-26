@@ -7,6 +7,7 @@ Grammateus is a set of modules for the Drupal content management system that all
 PROJECT LEAD: Ian W. Scott (monotasker)
 SOURCE CODE AND DOCUMENTATION: https://github.com/monotasker/Grammateus
 CONTACT: scottianw@gmail.com (http://www.ian-w-scott.com)
+DEMONSTRATION: http://www.purl.org/net/ocp
 
 LICENSE:GNU GPL3.0 (http://www.gnu.org/licenses/gpl.html)
 What does this license mean? Under the GPL license this software is made available free-of-charge for re-use, modification, and/or inclusion in other software projects. This permission applies to both commercial and non-commercial uses. If you modify this software and then distribute or convey the modified version for use by others, the source-code for that modified version must also be made available to all users under the same GPL3.0 license. In other words, you can modify Grammateus for your own purposes, provided that users can access your modified version of Grammateus under the terms of the GPL3.0. 
