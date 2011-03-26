@@ -1,0 +1,34 @@
+*last updated March 25, 2011*
+
+GRAMMATEUS 2.0
+
+Grammateus is a set of modules for the Drupal content management system that allow the editing and publication of academic primary texts online. You are encouraged to use and modify Grammateus for your own projects (free-access or commercial)
+
+PROJECT LEAD: Ian W. Scott (monotasker)
+SOURCE CODE AND DOCUMENTATION: https://github.com/monotasker/Grammateus
+CONTACT: scottianw@gmail.com (http://www.ian-w-scott.com)
+DEMONSTRATION: http://www.purl.org/net/ocp
+
+LICENSE:GNU GPL3.0 (http://www.gnu.org/licenses/gpl.html)
+What does this license mean? Under the GPL license this software is made available free-of-charge for re-use, modification, and/or inclusion in other software projects. This permission applies to both commercial and non-commercial uses. If you modify this software and then distribute or convey the modified version for use by others, the source-code for that modified version must also be made available to all users under the same GPL3.0 license. In other words, you can modify Grammateus for your own purposes, provided that users can access your modified version of Grammateus under the terms of the GPL3.0. 
+
+This license does not prohibit you from charging for access to the content published via Grammateus, and it does not affect the copyright ownership or licensing of that published content. (The above statement is intended only as an informal explanation of the GPL3.0 license and is not intended to replace, change, or augment the terms of that license in any way).
+
+*Release Notes*
+
+2.0 -- released March 2011
+
+This version of Grammateus is written as a pair of Drupal 6 modules (grammateus-editor and grammateus-reader) along with a Drupal 6 theme. As of version 2.0 the grammateus-editor module is not yet fully functional. The grammateus-reader module is working well, but does suffer from a couple of known bugs on IE and on mobile browsers. Grammateus has been tested on Firefox 3.6-4.0, Google Chrome/Chromium 8-11, Safari Mobile, and IE6+. It should also Given the common use of the Webkit or Gecko rendering engines.
+
+known issues:
+- draggable resizing of columns and apparatus windows does not work in any version of IE. 
+- the grammateus theme is also not optimized for IE and may need more tweaking.
+- since mobile browsers do not support the position:fixed CSS property, the bottom utility bar floats over some of the content on scrolling pages when viewed on a mobile device.
+
+1.5
+
+The first version of Grammateus was partially re-written as an ajax application using a custom, proprietary javascript library.
+
+1.0
+
+The first version of the Grammateus platform was built by Ian W. Scott and Ken M. Penner as a stand-alone javascript application using the Sarissa.js library.
