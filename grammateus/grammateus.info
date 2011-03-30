@@ -1,0 +1,23 @@
+; $Id: framework.info,v 1.0 2010/12/10 Ian W. Scott Exp $
+
+name = Grammateus
+description = Grammateus is a Drupal theme developed for the Grammateus Platform, a Drupal deployment for publishing ancient texts. This theme was developed with the help of the Framework theme by Andre Griffin.
+core = 6.x
+engine = phptemplate
+stylesheets[all][] = style.css
+stylesheets[print][] = printer-friendly.css
+
+regions[left] = Left sidebar
+regions[right] = Right sidebar
+regions[content] = Content
+regions[header] = Header
+regions[nav] = Navigation
+regions[footer] = Footer
+
+scripts[] = js/jquery-qtip/jquery.qtip-1.0.min.js
+scripts[] = js/script.js
+
+version = "6.x-2.6"
+core = "6.x"
+project = "grammateus"
+datestamp = "1247529671"
